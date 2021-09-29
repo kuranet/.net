@@ -20,12 +20,25 @@ namespace Lr1_ConsoleApp
             Print($"Get new stack peek: {intStack.Peek()}");
             Print();
 
-
             Print("Test enumerable");
             foreach(var element in intStack)
             {
                 Print(element.ToString());
             }
+            Print();
+
+            Print($"Check contains 6: {intStack.Contains(6)}");
+            Print($"Check contains 2: {intStack.Contains(2)}");
+            Print();
+
+            intStack.Clear();
+            Print("Test enumerable");
+            foreach (var element in intStack)
+            {
+                Print(element.ToString());
+            }
+            Print();
+
         }
 
         static void Print(string mesage = default)
