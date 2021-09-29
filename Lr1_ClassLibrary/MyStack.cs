@@ -15,13 +15,11 @@ namespace Lr1_ClassLibrary
 
         public int Count => ElementsCount;
 
-        public bool IsReadOnly => true;
+        public bool IsReadOnly => false;
 
         public bool IsSynchronized => true;
 
         public object SyncRoot => this;
-
-        public event Action<MyStack<T>, T> ElementAdded;
 
         public MyStack(int size)
         {
@@ -30,17 +28,18 @@ namespace Lr1_ClassLibrary
 
         public MyStack()
         {
+            StackCapacity = 1;
         }
 
         public void Push(T element)
         {
-            if (ElementsCount == StackCapacity)
+            if (ElementsCount >= StackCapacity)
             {
-                var newStackCapacity = _stackContent.Length * 2;
-                ResizeArray(newStackCapacity);
+                StackCapacity = _stackContent.Length * 2;
+                Array.Resize(ref _stackContent, StackCapacity);
             }
 
-            _stackContent[++ElementsCount] = element;
+            _stackContent[ElementsCount++] = element;
         }
 
         public T Pop()
@@ -61,17 +60,17 @@ namespace Lr1_ClassLibrary
 
         public IEnumerator<T> GetEnumerator()
         {
-            foreach (var element in _stackContent)
+            for (var i = 0; i < ElementsCount; i++)
             {
-                yield return element;
+                yield return _stackContent[i];
             }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (var element in _stackContent)
+            for (var i = 0; i < ElementsCount; i++)
             {
-                yield return element;
+                yield return _stackContent[i];
             }
         }
 
@@ -115,15 +114,6 @@ namespace Lr1_ClassLibrary
                 array.SetValue(_stackContent[insertedItemIndex], insertedItemIndex);
                 insertedItemIndex++;
             }
-        }
-
-        private void ResizeArray(int newSize)
-        {
-            var stackContents = _stackContent;
-            Array.Resize(ref stackContents, newSize);
-
-            _stackContent = stackContents;
-            StackCapacity = newSize;
         }
     }
 }
