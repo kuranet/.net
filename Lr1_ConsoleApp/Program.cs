@@ -8,6 +8,11 @@ namespace Lr1_ConsoleApp
         static void Main(string[] args)
         {
             var intStack = new MyStack<int>();
+            intStack.SuccesfullAddition 
+                += (source, el) => Print($"{source}: {el} sucessfully added");
+            intStack.SuccesfullClearing 
+                += (source) => Print($"{source}: cleared sucessfully");
+
             for (var i = 0; i < 5; i++)
             {
                 intStack.Push(i + 1);

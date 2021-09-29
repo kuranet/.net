@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace Lr1_ClassLibrary
 {
+    public delegate void AddingActionHandler(object source, object addedElement);
+    public delegate void ClearingActionHandler(object source);
+
     public class MyStack<T> : IEnumerable<T>, ICollection
         where T : IComparable
     {
@@ -20,6 +23,9 @@ namespace Lr1_ClassLibrary
         public bool IsSynchronized => true;
 
         public object SyncRoot => this;
+
+        public event AddingActionHandler SuccesfullAddition;
+        public event ClearingActionHandler SuccesfullClearing;
 
         public MyStack(int size)
         {
@@ -40,6 +46,7 @@ namespace Lr1_ClassLibrary
             }
 
             _stackContent[ElementsCount++] = element;
+            SuccesfullAddition(this, element);
         }
 
         public T Pop()
@@ -91,6 +98,8 @@ namespace Lr1_ClassLibrary
 
             StackCapacity = 1;
             ElementsCount = 0;
+
+            SuccesfullClearing(this);
         }
 
         public void CopyTo(Array array, int index)
