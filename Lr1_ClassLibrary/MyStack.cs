@@ -4,15 +4,19 @@ using System.Collections.Generic;
 
 namespace Lr1_ClassLibrary
 {
-    public delegate void AddingActionHandler(object source, object addedElement);
-    public delegate void ClearingActionHandler(object source);
+    public class StackArgs : EventArgs
+    {
+        public string Message { get; set; }
+    }
 
     public class MyStack<T> : IEnumerable<T>, ICollection
-        where T : IComparable
     {
+        public delegate void AddingActionHandler(object source, StackArgs addedElement);
+        public delegate void ClearingActionHandler(object source, StackArgs addedElement);
+
         private T[] _stackContent = new T[1];
         private int ElementsCount { get; set; }
-        private int StackCapacity { get; set; }
+        public int StackCapacity { get; private set; }
 
         public bool IsEmpty => ElementsCount <= 0;
 
@@ -27,14 +31,22 @@ namespace Lr1_ClassLibrary
         public event AddingActionHandler SuccesfullAddition;
         public event ClearingActionHandler SuccesfullClearing;
 
+        public MyStack() : this(1) { }
+
         public MyStack(int size)
         {
-            _stackContent = new T[size];
-        }
+            if (size < 0)
+            {
+                throw new ArgumentOutOfRangeException("Stack size can't be less that zero");
+            }
 
-        public MyStack()
-        {
-            StackCapacity = 1;
+            if (size == 0)
+            {
+                size = 1;
+            }
+
+            _stackContent = new T[size];
+            StackCapacity = size;
         }
 
         public void Push(T element)
@@ -46,7 +58,8 @@ namespace Lr1_ClassLibrary
             }
 
             _stackContent[ElementsCount++] = element;
-            SuccesfullAddition(this, element);
+
+            SuccesfullAddition?.Invoke(this, new StackArgs() { Message = $"Successfully add {element}" });
         }
 
         public T Pop()
@@ -67,7 +80,7 @@ namespace Lr1_ClassLibrary
 
         public IEnumerator<T> GetEnumerator()
         {
-            for (var i = 0; i < ElementsCount; i++)
+            for (var i = ElementsCount - 1; i >= 0; i--)
             {
                 yield return _stackContent[i];
             }
@@ -75,7 +88,7 @@ namespace Lr1_ClassLibrary
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            for (var i = 0; i < ElementsCount; i++)
+            for (var i = ElementsCount - 1; i >= 0; i--)
             {
                 yield return _stackContent[i];
             }
@@ -99,7 +112,7 @@ namespace Lr1_ClassLibrary
             StackCapacity = 1;
             ElementsCount = 0;
 
-            SuccesfullClearing(this);
+            SuccesfullClearing?.Invoke(this, new StackArgs() { Message = "Successfully cleared"});
         }
 
         public void CopyTo(Array array, int index)
@@ -114,13 +127,13 @@ namespace Lr1_ClassLibrary
                 throw new RankException();
 
             var maxIndex = index + ElementsCount;
-            if (maxIndex > array.Length)
+            if (maxIndex >= array.Length)
                 throw new ArgumentException();
 
             var insertedItemIndex = 0;
-            for (var i = index; i < maxIndex; i++)
+            for (var i = index; i <= maxIndex; i++)
             {
-                array.SetValue(_stackContent[insertedItemIndex], insertedItemIndex);
+                array.SetValue(_stackContent[insertedItemIndex], i);
                 insertedItemIndex++;
             }
         }

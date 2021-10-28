@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Lr1_ClassLibrary;
 
 namespace Lr1_ConsoleApp
@@ -9,9 +10,9 @@ namespace Lr1_ConsoleApp
         {
             var intStack = new MyStack<int>();
             intStack.SuccesfullAddition 
-                += (source, el) => Print($"{source}: {el} sucessfully added");
+                += (source, el) => Print(el.Message);
             intStack.SuccesfullClearing 
-                += (source) => Print($"{source}: cleared sucessfully");
+                += (source, el) => Print($"{source}: cleared sucessfully");
 
             for (var i = 0; i < 5; i++)
             {
