@@ -51,7 +51,7 @@ namespace PresentationLayer.Commands
                 case "4":
                     {
                         var selectedMenu = SelectMenu();
-                        MenuController.Instance.RemoveMenu(selectedMenu.Name);
+                        MenuController.Instance.RemoveMenu(selectedMenu);
                         break;
                     }
                 case "b":

@@ -1,9 +1,4 @@
 ﻿using DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BuisnessLogic
 {
@@ -35,13 +30,26 @@ namespace BuisnessLogic
             return newOrder;
         }
 
-        public void AddMealToOrder(OrderRecord order, Meal mealToAdd, int amountToAdd)
+        public bool CanAddMealToOrder(OrderRecord order, Meal mealToAdd, int amountToAdd)
         {
+            // Unknown order.
             if (CanOperateOrder(order) == false)
-                throw new ArgumentException($"Order {order.OrderNumber} doesn't exists in database");
+                return false;
+
+            // Unknown meal.
+            if (MealController.Instance.CanOperateMeal(mealToAdd) == false)
+                return false;
 
             if (amountToAdd <= 0)
-                throw new ArgumentException("Tring to add negative meal amount");
+                return false;
+
+            return true;
+        }
+
+        public void AddMealToOrder(OrderRecord order, Meal mealToAdd, int amountToAdd)
+        {
+            if (CanAddMealToOrder(order, mealToAdd, amountToAdd) == false)
+                throw new ArgumentException($"Can't add meal {mealToAdd.Name} in amount {amountToAdd} to order #{order.OrderNumber}");
 
             var mealRecord = order.Meals.FirstOrDefault(meal => meal.Meal == mealToAdd);
 
@@ -54,22 +62,39 @@ namespace BuisnessLogic
             mealRecord.Count += amountToAdd;
         }
 
-        public void RemoveMealFromOrder(OrderRecord order, Meal mealToRemove, int amountToRemove)
+        public bool CanRemoveMealFromOrder(OrderRecord order, Meal mealToRemove, int amountToRemove)
         {
+            // Unknown order.
             if (CanOperateOrder(order) == false)
-                throw new ArgumentException($"Order {order.OrderNumber} doesn't exists in database");
+                return false;
 
+            // Unknown meal.
+            if (MealController.Instance.CanOperateMeal(mealToRemove) == false)
+                return false;
+
+            // Amount less than zero.
             if (amountToRemove <= 0)
-                throw new ArgumentException("Tring to remove negative meal amount");
+                return false;
 
             var mealRecord = order.Meals.FirstOrDefault(meal => meal.Meal == mealToRemove);
 
-            if (mealRecord.Equals(default))
-                throw new NullReferenceException($"Order {order.OrderNumber} doesn't contains {mealToRemove.Name} meal");
+            // Don't have seal in record.
+            if (mealRecord == null)
+                return false;
 
+            // Can't remove lass than amount.
             if (mealRecord.Count < amountToRemove)
-                throw new ArgumentException($"In order {order.OrderNumber} meal with {mealToRemove.Name} has less ordered amount");
+                return false;
 
+            return true;
+        }
+
+        public void RemoveMealFromOrder(OrderRecord order, Meal mealToRemove, int amountToRemove)
+        {
+            if (CanRemoveMealFromOrder(order, mealToRemove, amountToRemove) == false)
+                throw new ArgumentException($"Can't remove meal{mealToRemove.Name} in amount {amountToRemove} from order #{order.OrderNumber}");
+            
+            var mealRecord = order.Meals.First(meal => meal.Meal == mealToRemove);
             mealRecord.Count -= amountToRemove;
 
             if (mealRecord.Count != 0)

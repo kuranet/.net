@@ -51,7 +51,7 @@ namespace BuisnessLogic
         public void AddMenu(string name)
         {
             if (CanAddMenu(name) == false)
-                throw new ArgumentException($"Menu {name} doesn't exist in database");
+                throw new ArgumentException($"Can't add menu with name {name}");
 
             var newMeal = new Menu()
             {
@@ -61,23 +61,34 @@ namespace BuisnessLogic
             DataProvider.Menus.Add(newMeal);
         }
 
-        public void RemoveMenu(string name)
+        public bool CanRemoveMenu(Menu menu)
         {
-            var meal = GetMenu(name);
-            if (meal == null)
-                throw new ArgumentException($"Menu {name} doesn't exist in database");
+            // Unknown meal.
+            if (CanOperateWithMenu(menu) == false)
+                return false;
 
-            DataProvider.Menus.Remove(meal);
+            return true;
+        }
+
+        public void RemoveMenu(Menu menu)
+        {
+            if (CanRemoveMenu(menu) == false)
+                throw new ArgumentException($"Can't remove menu {menu.Name}");
+
+            DataProvider.Menus.Remove(menu);
         }
 
         public bool CanAddMealToMenu(Menu menu, Meal meal)
         {
+            // Menu doesn't exist in database.
             if (CanOperateWithMenu(menu) == false)
                 return false;
 
+            // Meal doesn't exist in database.
             if (MealController.Instance.CanOperateMeal(meal) == false)
                 return false; ;
 
+            // Menu also contains meal.
             if (menu.Meals.Contains(meal))
                 return false;
 
@@ -86,29 +97,34 @@ namespace BuisnessLogic
 
         public void AddMealToMenu(Menu menu, Meal meal)
         {
-            if (CanOperateWithMenu(menu) == false)
-                throw new ArgumentException($"Menu {menu.Name} doesn't exist in database");
-
-            if (MealController.Instance.CanOperateMeal(meal) == false)
-                throw new ArgumentException($"Meal {meal.Name} doesn't exist in database");
-
-            if (menu.Meals.Contains(meal))
-                throw new ArgumentException($"Menu {menu.Name} also contains {meal.Name}");
+            if (CanAddMealToMenu(menu, meal) == false)
+                throw new ArgumentException($"Can't add {meal.Name} to menu {menu.Name}");
 
             menu.Meals.Add(meal);
         }
 
+        public bool CanRemoveMealFromMenu(Menu menu, Meal meal)
+        {
+            // Menu doesn't exist in database.
+            if (CanOperateWithMenu(menu) == false)
+                return false;
+
+            // Meal doesn't exist in database.
+            if (MealController.Instance.CanOperateMeal(meal) == false)
+                return false;
+
+            // Menu doesn't contains meal.
+            if (menu.Meals.Contains(meal) == false)
+                return false;
+
+            return true;
+        }
+
         public void RemoveMealFromMenu(Menu menu, Meal meal)
         {
-            if (CanOperateWithMenu(menu) == false)
-                throw new ArgumentException($"Menu {menu.Name} doesn't exist in database");
-
-            if (MealController.Instance.CanOperateMeal(meal) == false)
-                throw new ArgumentException($"Meal {meal.Name} doesn't exist in database");
-
-            if (menu.Meals.Contains(meal) == false)
-                throw new ArgumentException($"Menu {menu.Name} doesn't contains {meal.Name}");
-
+            if (CanRemoveMealFromMenu(menu, meal) == false)
+                throw new ArgumentException($"Can't remove meal {meal.Name} from menu { menu.Name }");
+            
             menu.Meals.Remove(meal);
         }
 
