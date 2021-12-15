@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "..\DataAccess\DataAccess.csproj", "{17780DAB-CEB1-4AB2-84A5-D7E0197184CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NUnitTests", "..\NUnitTests\NUnitTests.csproj", "{32A393DC-F076-42A9-A905-91BA7FFF250C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NUnitTests", "..\NUnitTests\NUnitTests.csproj", "{32A393DC-F076-42A9-A905-91BA7FFF250C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLayer", "..\PresentationLayer\PresentationLayer.csproj", "{A40DBF84-B6AF-4EA6-93A9-BA540A252D25}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PresentationLayer_Console", "..\PresentationLayer_Console\PresentationLayer_Console.csproj", "{9D291937-A9A3-453A-B79A-45A9B6F66DCD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{32A393DC-F076-42A9-A905-91BA7FFF250C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32A393DC-F076-42A9-A905-91BA7FFF250C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32A393DC-F076-42A9-A905-91BA7FFF250C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A40DBF84-B6AF-4EA6-93A9-BA540A252D25}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A40DBF84-B6AF-4EA6-93A9-BA540A252D25}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A40DBF84-B6AF-4EA6-93A9-BA540A252D25}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A40DBF84-B6AF-4EA6-93A9-BA540A252D25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D291937-A9A3-453A-B79A-45A9B6F66DCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D291937-A9A3-453A-B79A-45A9B6F66DCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D291937-A9A3-453A-B79A-45A9B6F66DCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D291937-A9A3-453A-B79A-45A9B6F66DCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

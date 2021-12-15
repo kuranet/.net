@@ -10,11 +10,12 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>DataAccess</RootNamespace>
     <AssemblyName>DataAccess</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,8 +56,8 @@
     <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=3.1.21.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\BusinessLogic\packages\Microsoft.EntityFrameworkCore.Relational.3.1.21\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer, Version=3.1.21.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\BusinessLogic\packages\Microsoft.EntityFrameworkCore.SqlServer.3.1.21\lib\netstandard2.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
+    <Reference Include="Microsoft.EntityFrameworkCore.SqlServer, Version=3.1.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\BusinessLogic\packages\Microsoft.EntityFrameworkCore.SqlServer.3.1.0\lib\netstandard2.0\Microsoft.EntityFrameworkCore.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Caching.Abstractions, Version=3.1.21.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\BusinessLogic\packages\Microsoft.Extensions.Caching.Abstractions.3.1.21\lib\netstandard2.0\Microsoft.Extensions.Caching.Abstractions.dll</HintPath>
@@ -197,6 +198,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DBInitializer.cs" />
+    <Compile Include="IDataProvider.cs" />
     <Compile Include="Ingredient.cs" />
     <Compile Include="Meal.cs" />
     <Compile Include="Menu.cs" />
@@ -212,8 +214,8 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\BusinessLogic\packages\Microsoft.EntityFrameworkCore.Design.3.1.11\build\net461\Microsoft.EntityFrameworkCore.Design.props')" Text="$([System.String]::Format('$(ErrorText)', '..\BusinessLogic\packages\Microsoft.EntityFrameworkCore.Design.3.1.11\build\net461\Microsoft.EntityFrameworkCore.Design.props'))" />
     <Error Condition="!Exists('..\BusinessLogic\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\BusinessLogic\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets'))" />
+    <Error Condition="!Exists('..\BusinessLogic\packages\Microsoft.EntityFrameworkCore.Design.3.1.11\build\net461\Microsoft.EntityFrameworkCore.Design.props')" Text="$([System.String]::Format('$(ErrorText)', '..\BusinessLogic\packages\Microsoft.EntityFrameworkCore.Design.3.1.11\build\net461\Microsoft.EntityFrameworkCore.Design.props'))" />
   </Target>
   <Import Project="..\BusinessLogic\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets" Condition="Exists('..\BusinessLogic\packages\Microsoft.Data.SqlClient.SNI.1.1.0\build\net46\Microsoft.Data.SqlClient.SNI.targets')" />
 </Project>

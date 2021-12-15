@@ -5,6 +5,7 @@ namespace DataAccess
     public class Menu
     {
         public int Id { get; set; }
-        public List<Meal> Meals { get; set; } = new List<Meal>();
+        public string Name { get; set; }
+        public List<int> MealIds { get; set; } = new List<int>();
     }
 }

@@ -9,6 +9,8 @@ namespace DataAccess
 {
     public class PostITEntities : DbContext
     {
+        public DbSet<Menu> Menus { get; set; }
+        public DbSet<Meal> Meals { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }
 
         public PostITEntities()
@@ -18,7 +20,7 @@ namespace DataAccess
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=helloappdb;Trusted_Connection=True;");
         }
     }
 
