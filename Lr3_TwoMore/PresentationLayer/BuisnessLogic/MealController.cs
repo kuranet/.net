@@ -48,11 +48,7 @@ namespace BuisnessLogic
         public void AddMeal(string name)
         {
             if (CanAddMeal(name) == false)
-                return;
-
-            var hasSuchName = Meals.Any(x => x.Name == name);
-            if (hasSuchName)
-                throw new Exception("Such meal also exists");
+                throw new ArgumentException($"Can't add meal with name {name}");
 
             var newMeal = new Meal()
             {
@@ -62,22 +58,34 @@ namespace BuisnessLogic
             Meals.Add(newMeal);
         }
 
-        public void RemoveMeal(Meal ingr)
+        public bool CanRemoveMeal(Meal meal)
         {
-            if (CanOperateMeal(ingr) == false)
-                throw new Exception($"Unknown meal {ingr.Name}");
+            // Unknown meal.
+            if (CanOperateMeal(meal) == false)
+                return false;
 
-            Meals.Remove(ingr);
+            return true;
+        }
+
+        public void RemoveMeal(Meal meal)
+        {
+            if (CanRemoveMeal(meal) == false)
+                throw new ArgumentException($"Can't remove meal {meal.Name}");
+
+            Meals.Remove(meal);
         }
 
         public bool CanAddIngredientToMeal(Meal meal, Ingredient ingr)
         {
+            // Meal doesn't exists in database.
             if (CanOperateMeal(meal) == false)
                 return false;
 
+            // Ingredient doesn't exists in database.
             if (IngredientController.Instance.CanOperateIngredient(ingr) == false)
-                return false; ;
+                return false;
 
+            // Meal contains ingredient.
             if (meal.Ingredients.Contains(ingr))
                 return false;
 
@@ -86,28 +94,33 @@ namespace BuisnessLogic
 
         public void AddIngredientToMeal(Meal meal, Ingredient ingredient)
         {
-            if (CanOperateMeal(meal) == false)
-                throw new ArgumentException($"Meal with name {meal.Name} doesn't exists in database");
-
-            if (IngredientController.Instance.CanOperateIngredient(ingredient) == false)
-                throw new ArgumentException($"Ingredient with name {ingredient.Name} doesn't exists in database");
-
-            if (meal.Ingredients.Contains(ingredient))
-                throw new ArgumentException($"Meal {meal.Name} also contains {ingredient.Name}");
+            if (CanAddIngredientToMeal(meal, ingredient) == false)
+                throw new ArgumentException($"Can't add ingredient {ingredient.Name} to meal {meal.Name}");
 
             meal.Ingredients.Add(ingredient);
         }
 
+        public bool CanRemoveIngredientFromMeal(Meal meal, Ingredient ingredient)
+        {
+            // Meal doesn't exists in database.
+            if (CanOperateMeal(meal) == false)
+                return false;
+
+            // Ingredient doesn't exists in database.
+            if (IngredientController.Instance.CanOperateIngredient(ingredient) == false)
+                return false;
+
+            // Meal doesn't contains ingredient.
+            if (meal.Ingredients.Contains(ingredient) == false)
+                return false;
+
+            return true;
+        }
+
         public void RemoveIngredientFromMeal(Meal meal, Ingredient ingredient)
         {
-            if (CanOperateMeal(meal) == false)
-                throw new ArgumentException($"Meal with name {meal.Name} doesn't exists in database");
-
-            if (IngredientController.Instance.CanOperateIngredient(ingredient) == false)
-                throw new ArgumentException($"Ingredient with name {ingredient.Name} doesn't exists in database");
-
-            if (meal.Ingredients.Contains(ingredient) == false)
-                throw new ArgumentException($"Meal {meal.Name} do not contains {ingredient.Name}");
+            if (CanRemoveIngredientFromMeal(meal, ingredient) == false)
+                throw new ArgumentException($"Can't remove ingredient {ingredient.Name} from meal {meal.Name}");
 
             meal.Ingredients.Remove(ingredient);
         }
