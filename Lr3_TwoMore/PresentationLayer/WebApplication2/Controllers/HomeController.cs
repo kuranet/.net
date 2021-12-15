@@ -18,15 +18,21 @@ namespace WebApplication2.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public ActionResult GoToOrderEditing()
         {
-            return View();
+            return Redirect("/OrderEditing/Index");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public void GoToMenuEditing()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+
+        }
+        [HttpPost]
+        public void GoToMealEditing()
+        {
+
         }
     }
 }

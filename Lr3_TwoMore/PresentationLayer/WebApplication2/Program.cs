@@ -1,3 +1,7 @@
+using BusinessLogic;
+
+RootController.Instance.Initialize();
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
