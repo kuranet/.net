@@ -4,8 +4,9 @@ namespace DataLayer
     public class EFUnitOfWork : IDataProvider, IDisposable
     {
         private PostITEntities db;
-        private MenuRepository phoneRepository;
-        private MealRepository orderRepository;
+        private MenuRepository menuRepository;
+        private MealRepository mealRepository;
+        private IngredientRepository ingredientRepository;
 
         public EFUnitOfWork(string connectionString)
         {
@@ -15,9 +16,9 @@ namespace DataLayer
         {
             get
             {
-                if (phoneRepository == null)
-                    phoneRepository = new MenuRepository(db);
-                return phoneRepository;
+                if (menuRepository == null)
+                    menuRepository = new MenuRepository(db);
+                return menuRepository;
             }
         }
 
@@ -25,9 +26,9 @@ namespace DataLayer
         {
             get
             {
-                if (orderRepository == null)
-                    orderRepository = new MealRepository(db);
-                return orderRepository;
+                if (mealRepository == null)
+                    mealRepository = new MealRepository(db);
+                return mealRepository;
             }
         }
 
@@ -35,10 +36,9 @@ namespace DataLayer
         {
             get
             {
-                return null;
-                //if (orderRepository == null)
-                //    orderRepository = new MealRepository(db);
-                //return orderRepository;
+                if (ingredientRepository == null)
+                    ingredientRepository = new IngredientRepository(db);
+                return ingredientRepository;
             }
         }
 
