@@ -14,6 +14,22 @@ namespace WebApplication5.Controllers
         }
 
         [HttpGet]
+        [Route("MenuEditing/AddMenu")]
+        public ActionResult AddMenu()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("MenuEditing/AddMenu")]
+        public ActionResult AddNewMenu(string menuName)
+        {
+            MenuController.Instance.AddMenu(menuName);
+
+            return Redirect("/MenuEditing/Index");
+        }
+
+        [HttpGet]
         public ActionResult Remove(int id)
         {
             var menuToDelete = MenuController.Instance.Menus.FirstOrDefault(m => m.Id == id);

@@ -1,5 +1,5 @@
 ﻿@{
-    Layout = null;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <!DOCTYPE html>
@@ -14,6 +14,7 @@
         <h1>My best app</h1>
         <h3>Meal editing</h3>
         <table>
+            <tr><td><p><a href="/MealEditing/AddMeal">Add new meal</a></p></td></tr>
             @foreach (var b in ViewBag.Menus)
             {
                 <tr>

@@ -1,0 +1,40 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>My best app</title>
+</head>
+<body>
+    <div>
+        <h1>My best app</h1>
+        <h3>Edit concrete order</h3>
+        <table>
+            <tr><td><p>Meals in order:</p></td></tr>
+            @foreach (var b in ViewBag.InOrderMeals)
+            {
+                <tr>
+                    <td><p>@b.Meal.Name</p></td>
+                    <td><p>@b.AddedAmount</p></td>
+                    <td><p><a href="/OrderEditing/AddToMeal/@ViewBag.SeletedOrderNumber&@b.Meal.Id">Add one more</a></p></td>
+                    <td><p><a href="/OrderEditing/RemoveMeal/@ViewBag.SeletedOrderNumber&@b.Meal.Id">Remove one more</a></p></td>
+                </tr>
+            }
+            
+            <tr><td><p>Meals that can be added:</p></td></tr>
+            @foreach (var b in ViewBag.MealsForAdding)
+            {
+                <tr>
+                    <td><p>@b.Meal.Name</p></td>
+                    <td><p>@b.AddedAmount</p></td>
+                    <td><p><a href="/OrderEditing/AddToMeal/@ViewBag.SeletedOrderNumber&@b.Meal.Id">Add one more</a></p></td>
+                </tr>
+            }
+        </table>
+    </div>
+</body>
+</html>

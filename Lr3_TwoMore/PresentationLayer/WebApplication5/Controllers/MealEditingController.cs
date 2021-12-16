@@ -60,5 +60,22 @@ namespace WebApplication5.Controllers
 
             return Redirect($"/MealEditing/Edit/{ingrId}");
         }
+
+        [HttpGet]
+        [Route("MealEditing/AddMeal")]
+        public ActionResult AddMeal()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Route("MealEditing/AddMeal")]
+        public ActionResult AddNewMeal(string mealName)
+        {
+            MealController.Instance.AddMeal(mealName);
+
+            return Redirect("/MealEditing/Index");
+        }
+
     }
 }
