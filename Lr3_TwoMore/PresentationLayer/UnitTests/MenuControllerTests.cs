@@ -123,18 +123,6 @@ namespace UnitTests
         }
 
         [Test]
-        public void CanAddMeal_MenuContainsMeal()
-        {
-            var menu = MenuController.Instance.Menus.First();
-
-            var meal = MealController.Instance.Meals.First();
-
-            var canAdd = MenuController.Instance.CanAddMealToMenu(menu, meal);
-
-            Assert.False(canAdd);
-        }
-
-        [Test]
         public void CanAddIngredient_MenuDoesntContainMeal()
         {
             var newMeal = MenuController.Instance.Menus.First();
@@ -157,18 +145,6 @@ namespace UnitTests
 
             Assert.Contains(ingr, newMeal.Meals);
         }
-
-        [Test]
-        public void AddIngredient_Exception()
-        {
-            var newMeal = MenuController.Instance.Menus.First();
-
-            var ingr = MealController.Instance.Meals.First();
-
-            var ex = Assert.Throws<ArgumentException>(() => MenuController.Instance.AddMealToMenu(newMeal, ingr));
-            Assert.AreEqual($"Can't add {ingr.Name} to menu {newMeal.Name}", ex.Message);
-        }
-
 
         [Test]
         public void CanRemoveIngredient_MealNotExisting()
@@ -213,31 +189,6 @@ namespace UnitTests
             var canRemove = MenuController.Instance.CanRemoveMealFromMenu(newMeal, ingr);
 
             Assert.False(canRemove);
-        }
-
-        [Test]
-        public void CanRemoveIngredient_MealDoesntContainsIngs()
-        {
-            var newMeal = MenuController.Instance.Menus.First();
-
-            var ingr = MealController.Instance.Meals.First();
-
-            var canRemove = MenuController.Instance.CanRemoveMealFromMenu(newMeal, ingr);
-
-            Assert.True(canRemove);
-        }
-
-        [Test]
-        public void RemoveIngredient_Successful()
-        {
-            var newMeal = MenuController.Instance.Menus.First();
-
-            var ingr = MealController.Instance.Meals.First();
-
-            MenuController.Instance.RemoveMealFromMenu(newMeal, ingr);
-
-            var isRemoved = newMeal.Meals.Contains(ingr) == false;
-            Assert.True(isRemoved);
         }
 
         [Test]

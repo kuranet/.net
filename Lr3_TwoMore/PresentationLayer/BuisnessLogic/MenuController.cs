@@ -1,9 +1,4 @@
 ﻿using DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BuisnessLogic
 {
@@ -26,7 +21,7 @@ namespace BuisnessLogic
 
         private IDataProvider DataProvider { get; set; }
 
-        public IList<Menu> Menus => DataProvider.Menus;
+        public IList<Menu> Menus => DataProvider.Menus.GetAll().ToList();
 
         public void Initialize(IDataProvider provider)
         {
@@ -34,7 +29,7 @@ namespace BuisnessLogic
         }
 
         public Menu GetMenu(string name)
-            => DataProvider.Menus.FirstOrDefault(m => m.Name == name);
+            => Menus.FirstOrDefault(m => m.Name == name);
 
         public bool CanAddMenu(string name)
         {
@@ -58,7 +53,7 @@ namespace BuisnessLogic
                 Name = name,
             };
 
-            Menus.Add(newMeal);
+            DataProvider.Menus.Create(newMeal);
         }
 
         public bool CanRemoveMenu(Menu menu)
@@ -75,7 +70,7 @@ namespace BuisnessLogic
             if (CanRemoveMenu(menu) == false)
                 throw new ArgumentException($"Can't remove menu {menu.Name}");
 
-            Menus.Remove(menu);
+            DataProvider.Menus.Delete(menu.Id);
         }
 
         public bool CanAddMealToMenu(Menu menu, Meal meal)

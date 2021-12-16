@@ -24,7 +24,7 @@ namespace BuisnessLogic
             }
         }
 
-        public IList<Meal> Meals => DataProvider.Meals;
+        public IList<Meal> Meals => DataProvider.Meals.GetAll().ToList();
 
         private IDataProvider DataProvider { get; set; }
 
@@ -55,7 +55,7 @@ namespace BuisnessLogic
                 Name = name,
             };
 
-            Meals.Add(newMeal);
+            DataProvider.Meals.Create(newMeal);
         }
 
         public bool CanRemoveMeal(Meal meal)
@@ -72,7 +72,7 @@ namespace BuisnessLogic
             if (CanRemoveMeal(meal) == false)
                 throw new ArgumentException($"Can't remove meal {meal.Name}");
 
-            Meals.Remove(meal);
+            DataProvider.Meals.Delete(meal.Id);
         }
 
         public bool CanAddIngredientToMeal(Meal meal, Ingredient ingr)

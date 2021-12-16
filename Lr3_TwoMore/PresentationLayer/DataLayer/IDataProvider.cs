@@ -1,9 +1,9 @@
 ﻿namespace DataLayer
 {
-    public interface IDataProvider
+    public interface IDataProvider : IDisposable
     {
-        IList<Menu> Menus { get; }
-        IList<Meal> Meals { get; }
-        IList<Ingredient> Ingredients { get; }
+        IRepository<Menu> Menus { get; }
+        IRepository<Meal> Meals { get; }
+        IRepository<Ingredient> Ingredients { get; }
     }
 }

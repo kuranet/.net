@@ -1,40 +1,126 @@
 ﻿using DataLayer;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UnitTests
 {
     internal class DataProviderMock : IDataProvider
     {
-        public IList<Ingredient> Ingredients { get; set; }
+        private IRepository<Menu> _menus;
+        private IRepository<Meal> _meals;
+        private IRepository<Ingredient> _ingredients;
 
-        public IList<Meal> Meals { get; set; }
+        public IRepository<Menu> Menus => _menus;
 
-        public IList<Menu> Menus { get; set; }
+        public IRepository<Meal> Meals => _meals;
+
+        public IRepository<Ingredient> Ingredients => _ingredients;
+
+        public void Dispose()
+        {
+        }
 
         public DataProviderMock()
         {
-            Ingredients = new List<Ingredient>()
-        {
-            new Ingredient() { Name = "ingr1" },
-            new Ingredient() { Name = "ingr2" },
-            new Ingredient() { Name = "ingr3" },
-            new Ingredient() { Name = "ingr4" },
-            new Ingredient() { Name = "ingr5" },
-        };
+            _menus = new MenuRepMock();
+            _ingredients = new IngrRepMock();
+            _meals = new MealsRepMock();
+        }
 
-            Meals = new List<Meal>()
+        private class MenuRepMock : IRepository<Menu>
         {
-            new Meal() { Name = "meal1", Price = 1, Ingredients = new List<Ingredient>{ Ingredients [0]} },
-            new Meal() { Name = "meal2", Price = 2, Ingredients = new List<Ingredient>{ Ingredients [1]} },
-            new Meal() { Name = "meal3", Price = 3, Ingredients = new List<Ingredient>{ Ingredients [2]} },
-            new Meal() { Name = "meal4", Price = 4, Ingredients = new List<Ingredient>{ Ingredients [3]} },
-            new Meal() { Name = "meal5", Price = 5, Ingredients = new List<Ingredient>{ Ingredients [4]} },
-        };
-            Menus = new List<Menu>()
+            private List<Menu> _menus = new List<Menu>()
+            {
+            new Menu() { Name = "menu1", Meals = new List<Meal>(), },
+            new Menu() { Name = "menu2", Meals = new List<Meal>(), }
+            };
+
+            public void Create(Menu item)
+            {
+                _menus.Add(item);
+            }
+
+            public void Delete(int id)
+            {
+                var menu = Get(id);
+                if (menu != null)
+                    _menus.Remove(menu);
+            }
+
+            public IEnumerable<Menu> Find(Func<Menu, bool> predicate)
+                => _menus.Where(x => predicate(x));
+
+            public Menu Get(int id) => _menus.FirstOrDefault(m => m.Id == id);
+
+            public IEnumerable<Menu> GetAll() => _menus;
+
+            public void Update(Menu item)
+            {
+            }
+        }
+
+        private class MealsRepMock : IRepository<Meal>
         {
-            new Menu() { Name= "menu1", Meals = new List<Meal>{ Meals[0], Meals[1]}, },
-            new Menu() { Name= "menu2", Meals = new List<Meal>{ Meals[2], Meals[3], Meals[4]}, }
-        };
+            private List<Meal> _menus = new List<Meal>()
+            {
+            new Meal() { Name = "meal1", Ingredients = new List<Ingredient>(), },
+            new Meal() { Name = "meal2", Ingredients = new List<Ingredient>(), }
+            };
+
+            public void Create(Meal item)
+            {
+                _menus.Add(item);
+            }
+
+            public void Delete(int id)
+            {
+                var menu = Get(id);
+                if (menu != null)
+                    _menus.Remove(menu);
+            }
+
+            public IEnumerable<Meal> Find(Func<Meal, bool> predicate)
+                => _menus.Where(x => predicate(x));
+
+            public Meal Get(int id) => _menus.FirstOrDefault(m => m.Id == id);
+
+            public IEnumerable<Meal> GetAll() => _menus;
+
+            public void Update(Meal item)
+            {
+            }
+        }
+        private class IngrRepMock : IRepository<Ingredient>
+        {
+            private List<Ingredient> _menus = new List<Ingredient>()
+            {
+            new Ingredient() { Name = "ingredient1" },
+            new Ingredient() { Name = "ingredient2" }
+            };
+
+            public void Create(Ingredient item)
+            {
+                _menus.Add(item);
+            }
+
+            public void Delete(int id)
+            {
+                var menu = Get(id);
+                if (menu != null)
+                    _menus.Remove(menu);
+            }
+
+            public IEnumerable<Ingredient> Find(Func<Ingredient, bool> predicate)
+                => _menus.Where(x => predicate(x));
+
+            public Ingredient Get(int id) => _menus.FirstOrDefault(m => m.Id == id);
+
+            public IEnumerable<Ingredient> GetAll() => _menus;
+
+            public void Update(Ingredient item)
+            {
+            }
         }
     }
 }

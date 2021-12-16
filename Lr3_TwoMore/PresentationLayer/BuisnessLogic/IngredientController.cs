@@ -24,7 +24,7 @@ namespace BuisnessLogic
             }
         }
 
-        public IList<Ingredient> Ingredients => DataProvider.Ingredients;
+        public IList<Ingredient> Ingredients => DataProvider.Ingredients.GetAll().ToList();
 
         private IDataProvider DataProvider { get; set; }
 
@@ -56,7 +56,7 @@ namespace BuisnessLogic
                 Name = name,
             };
 
-            Ingredients.Add(newIngr);
+            DataProvider.Ingredients.Create(newIngr);
         }
 
         public void RemoveIngredient(Ingredient ingr)
@@ -64,7 +64,7 @@ namespace BuisnessLogic
             if (CanOperateIngredient(ingr) == false)
                 throw new Exception($"Unknown ingredient {ingr.Name}");
 
-            Ingredients.Remove(ingr);
+            DataProvider.Ingredients.Delete(ingr.Id);
         }
 
         public bool CanOperateIngredient(Ingredient ingredient)

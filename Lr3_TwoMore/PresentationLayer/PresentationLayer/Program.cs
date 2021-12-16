@@ -38,6 +38,7 @@ namespace MyApp // Note: actual namespace depends on the project name.
                         }
                     case "3":
                         {
+                            (new OperateMealsCommand()).Execute();
                             break;
                         }
                 }

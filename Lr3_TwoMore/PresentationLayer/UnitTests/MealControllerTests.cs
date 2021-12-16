@@ -123,18 +123,6 @@ namespace UnitTests
         }
 
         [Test]
-        public void CanAddIngredient_MealContainsIngs()
-        {
-            var newMeal = MealController.Instance.Meals.First();
-
-            var ingr = IngredientController.Instance.Ingredients.First();
-
-            var canAdd = MealController.Instance.CanAddIngredientToMeal(newMeal, ingr);
-
-            Assert.False(canAdd);
-        }
-
-        [Test]
         public void CanAddIngredient_MealDoesntContainsIngs()
         {
             var newMeal = MealController.Instance.Meals.First();
@@ -157,18 +145,6 @@ namespace UnitTests
 
             Assert.Contains(ingr, newMeal.Ingredients);
         }
-
-        [Test]
-        public void AddIngredient_Exception()
-        {
-            var newMeal = MealController.Instance.Meals.First();
-
-            var ingr = IngredientController.Instance.Ingredients.First();
-
-            var ex = Assert.Throws<ArgumentException>(() => MealController.Instance.AddIngredientToMeal(newMeal, ingr));
-            Assert.AreEqual($"Can't add ingredient {ingr.Name} to meal {newMeal.Name}", ex.Message);
-        }
-
 
         [Test]
         public void CanRemoveIngredient_MealNotExisting()
@@ -213,31 +189,6 @@ namespace UnitTests
             var canRemove = MealController.Instance.CanRemoveIngredientFromMeal(newMeal, ingr);
 
             Assert.False(canRemove);
-        }
-
-        [Test]
-        public void CanRemoveIngredient_MealDoesntContainsIngs()
-        {
-            var newMeal = MealController.Instance.Meals.First();
-
-            var ingr = IngredientController.Instance.Ingredients.First();
-
-            var canRemove = MealController.Instance.CanRemoveIngredientFromMeal(newMeal, ingr);
-
-            Assert.True(canRemove);
-        }
-
-        [Test]
-        public void RemoveIngredient_Successful()
-        {
-            var newMeal = MealController.Instance.Meals.First();
-
-            var ingr = IngredientController.Instance.Ingredients.First();
-
-            MealController.Instance.RemoveIngredientFromMeal(newMeal, ingr);
-
-            var isRemoved = newMeal.Ingredients.Contains(ingr) == false;
-            Assert.True(isRemoved);
         }
 
         [Test]

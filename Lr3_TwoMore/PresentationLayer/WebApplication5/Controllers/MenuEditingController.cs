@@ -14,11 +14,12 @@ namespace WebApplication5.Controllers
         }
 
         [HttpGet]
-        public ActionResult Remove(int id)
+        public void Remove(int id)
         {
             var menuToDelete = MenuController.Instance.Menus.FirstOrDefault(m => m.Id == id);
             MenuController.Instance.RemoveMenu(menuToDelete);
-            return Redirect("/MenuEditing/Index");
+
+            // return Redirect("/MenuEditing/Index");
         }
 
         [HttpGet]

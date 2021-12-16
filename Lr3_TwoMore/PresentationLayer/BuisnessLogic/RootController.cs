@@ -25,12 +25,12 @@ namespace BusinessLogic
             }
         }
 
-        private PostITEntities _concreteDatabase;
+        private EFUnitOfWork _concreteDatabase;
         private IDataProvider DataProvider => _concreteDatabase;
 
         public void Initialize()
         {
-            _concreteDatabase = new PostITEntities();
+            _concreteDatabase = new EFUnitOfWork("");
 
             MenuController.Instance.Initialize(DataProvider);
             MealController.Instance.Initialize(DataProvider);
@@ -39,7 +39,7 @@ namespace BusinessLogic
 
         public void Quit()
         {
-            _concreteDatabase.SaveChanges();
+            _concreteDatabase.Save();
         }
     }
 }
