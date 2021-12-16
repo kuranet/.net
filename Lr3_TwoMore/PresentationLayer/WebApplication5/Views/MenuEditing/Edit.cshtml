@@ -1,0 +1,30 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>My best app</title>
+</head>
+<body>
+    <div>
+        <h1>My best app</h1>
+        <h3>Edit concrete menu</h3>
+        <table>
+            <tr>
+                <td>
+                    @using (Html.BeginForm("Edit"))
+                    {
+                        @Html.ListBox("Can be added to menu",
+                    new MultiSelectList(new string[] { "Россия", "США", "Китай", "Индия" }))
+                        <p><input type="submit" value="Отправить" /></p>
+                    }
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

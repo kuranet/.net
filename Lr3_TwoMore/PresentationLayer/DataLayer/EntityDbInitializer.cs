@@ -2,7 +2,7 @@
 
 namespace DataLayer
 {
-    public class EntityDbInitializer : DropCreateDatabaseAlways<PostITEntities>
+    public class EntityDbInitializer : DropCreateDatabaseIfModelChanges<PostITEntities>
     {
         protected override void Seed(PostITEntities db)
         {

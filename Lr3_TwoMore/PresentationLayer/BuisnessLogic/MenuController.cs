@@ -58,7 +58,7 @@ namespace BuisnessLogic
                 Name = name,
             };
 
-            DataProvider.Menus.Add(newMeal);
+            Menus.Add(newMeal);
         }
 
         public bool CanRemoveMenu(Menu menu)
@@ -75,7 +75,7 @@ namespace BuisnessLogic
             if (CanRemoveMenu(menu) == false)
                 throw new ArgumentException($"Can't remove menu {menu.Name}");
 
-            DataProvider.Menus.Remove(menu);
+            Menus.Remove(menu);
         }
 
         public bool CanAddMealToMenu(Menu menu, Meal meal)
@@ -129,6 +129,6 @@ namespace BuisnessLogic
         }
 
         private bool CanOperateWithMenu(Menu menu)
-            => DataProvider.Menus.Contains(menu);
+            => Menus.Contains(menu);
     }
 }

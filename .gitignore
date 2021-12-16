@@ -27,6 +27,8 @@ x86/
 [Aa][Rr][Mm]64/
 bld/
 [Bb]in/
+!Lr3_TwoMore/PresentationLayer/WebApplication5/bin/*
+!Lr3_TwoMore/PresentationLayer/WebApplication5/bin/*/*
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
