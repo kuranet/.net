@@ -29,10 +29,11 @@ namespace WebApplication2.Controllers
         {
             return Redirect("/MenuEditing/Index");
         }
-        [HttpPost]
-        public void GoToMealEditing()
-        {
 
+        [HttpGet]
+        public ActionResult GoToMealEditing()
+        {
+            return Redirect("/MealEditing/Index");
         }
     }
 }

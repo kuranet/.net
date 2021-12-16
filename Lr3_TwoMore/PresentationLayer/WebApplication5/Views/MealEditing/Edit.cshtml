@@ -12,15 +12,15 @@
 <body>
     <div>
         <h1>My best app</h1>
-        <h3>Edit concrete menu</h3>
+        <h3>Edit concrete meal</h3>
         <table>
             <tr><td><p>@ViewBag.MenuName</p></td></tr>
-            <tr><td><p>Meals in menu:</p></td></tr>
+            <tr><td><p>Ingredints in meal:</p></td></tr>
             @foreach (var b in ViewBag.InMenuMeals)
             {
                 <tr>
                     <td><p>@b.Name</p></td>
-                    <td><p><a href="/MenuEditing/RemoveMeal/@ViewBag.menuId&@b.Id">Remove</a></p></td>
+                    <td><p><a href="/MealEditing/RemoveIngredient/@ViewBag.menuId&@b.Id">Remove</a></p></td>
                 </tr>
             }
             
@@ -29,7 +29,7 @@
             {
                 <tr>
                     <td><p>@b.Name</p></td>
-                    <td><p><a href="/MenuEditing/AddMeal/@ViewBag.menuId&@b.Id">Add</a></p></td>
+                    <td><p><a href="/MealEditing/AddIngredient/@ViewBag.menuId&@b.Id">Add</a></p></td>
                 </tr>
             }
         </table>

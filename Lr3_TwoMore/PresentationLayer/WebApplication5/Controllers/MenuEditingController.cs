@@ -14,19 +14,22 @@ namespace WebApplication5.Controllers
         }
 
         [HttpGet]
-        public void Remove(int id)
+        public ActionResult Remove(int id)
         {
             var menuToDelete = MenuController.Instance.Menus.FirstOrDefault(m => m.Id == id);
             MenuController.Instance.RemoveMenu(menuToDelete);
 
-            // return Redirect("/MenuEditing/Index");
+            return Redirect("/MenuEditing/Index");
         }
 
         [HttpGet]
+
         public ActionResult Edit(int id)
         {
             var menuToEdit = MenuController.Instance.Menus.FirstOrDefault(m => m.Id == id);
-            ViewBag.MealsInMenu = menuToEdit.Meals;
+            ViewBag.MenuName = menuToEdit.Name;
+            ViewBag.menuId = menuToEdit.Id;
+            ViewBag.InMenuMeals = menuToEdit.Meals;
 
             var allMeals = MealController.Instance.Meals;
             ViewBag.MealsCanBeAddedToMenu = allMeals
@@ -36,28 +39,28 @@ namespace WebApplication5.Controllers
             return View();
         }
 
-        [HttpPost]
-        public string AddMeals(string[] countries)
+        [HttpGet]
+        [Route("MenuEditing/AddMeal/{menuId}&{id}")]
+        public ActionResult AddMeal(int menuId, int id)
         {
-            string result = "";
-            foreach (string c in countries)
-            {
-                result += c;
-                result += ";";
-            }
-            return "Вы выбрали: " + result;
+            var menu = MenuController.Instance.Menus.FirstOrDefault(m => m.Id == menuId);
+            var mealToAdd = MealController.Instance.Meals.FirstOrDefault(m => m.Id == id);
+
+            MenuController.Instance.AddMealToMenu(menu, mealToAdd);
+            
+            return Redirect($"/MenuEditing/Edit/{menuId}");
         }
 
-        [HttpPost]
-        public string RemoveMeals(string[] countries)
+        [HttpGet]
+        [Route("MenuEditing/RemoveMeal/{menuId}&{id}")]
+        public ActionResult RemoveMeal(int menuId, int id)
         {
-            string result = "";
-            foreach (string c in countries)
-            {
-                result += c;
-                result += ";";
-            }
-            return "Вы выбрали: " + result;
+            var menu = MenuController.Instance.Menus.FirstOrDefault(m => m.Id == menuId);
+            var mealToRemove = MealController.Instance.Meals.FirstOrDefault(m => m.Id == id);
+
+            MenuController.Instance.RemoveMealFromMenu(menu, mealToRemove);
+
+            return Redirect($"/MenuEditing/Edit/{menuId}");
         }
     }
 }

@@ -12,14 +12,14 @@
 <body>
     <div>
         <h1>My best app</h1>
-        <h3>Menu editing</h3>
+        <h3>Meal editing</h3>
         <table>
             @foreach (var b in ViewBag.Menus)
             {
                 <tr>
                     <td><p>@b.Name</p></td>
-                    <td><p><a href="/MenuEditing/Edit/@b.Id">Edit</a></p></td>
-                    <td><p><a href="/MenuEditing/Remove/@b.Id">Remove</a></p></td>
+                    <td><p><a href="/MealEditing/Edit/@b.Id">Edit</a></p></td>
+                    <td><p><a href="/MealEditing/Remove/@b.Id">Remove</a></p></td>
                 </tr>
             }
         </table>
