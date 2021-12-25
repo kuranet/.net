@@ -109,7 +109,7 @@ namespace BuisnessLogic
                 return false;
 
             // Menu doesn't contains meal.
-            if (menu.Meals.Contains(meal) == false)
+            if (menu.Meals.Any(m => m.Id == meal.Id) == false)
                 return false;
 
             return true;
@@ -119,8 +119,9 @@ namespace BuisnessLogic
         {
             if (CanRemoveMealFromMenu(menu, meal) == false)
                 throw new ArgumentException($"Can't remove meal {meal.Name} from menu { menu.Name }");
-            
-            menu.Meals.Remove(meal);
+
+            var mToRemove = menu.Meals.First(m => m.Id == meal.Id);
+            menu.Meals.Remove(mToRemove);
         }
 
         private bool CanOperateWithMenu(Menu menu)

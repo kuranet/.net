@@ -68,6 +68,6 @@ namespace BuisnessLogic
         }
 
         public bool CanOperateIngredient(Ingredient ingredient)
-            => Ingredients.Contains(ingredient);
+            => Ingredients.Any(i => i.Id == ingredient.Id);
     }
 }

@@ -111,7 +111,7 @@ namespace BuisnessLogic
                 return false;
 
             // Meal doesn't contains ingredient.
-            if (meal.Ingredients.Contains(ingredient) == false)
+            if (meal.Ingredients.Any(i => i.Id == ingredient.Id) == false)
                 return false;
 
             return true;
@@ -122,10 +122,11 @@ namespace BuisnessLogic
             if (CanRemoveIngredientFromMeal(meal, ingredient) == false)
                 throw new ArgumentException($"Can't remove ingredient {ingredient.Name} from meal {meal.Name}");
 
-            meal.Ingredients.Remove(ingredient);
+            var iToRemove = meal.Ingredients.First(i => i.Id == ingredient.Id);
+            meal.Ingredients.Remove(iToRemove);
         }
 
         public bool CanOperateMeal(Meal meal)
-            => Meals.Contains(meal);
+            => Meals.Any(m => m.Id == meal.Id);
     }
 }

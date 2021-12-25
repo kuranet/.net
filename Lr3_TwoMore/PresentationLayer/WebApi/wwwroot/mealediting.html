@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Meals editing</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.0/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <a href="/Help">Web API Help Page</a>
+        <h2>All Meals</h2>
+
+        <form name="userForm">
+            <input type="hidden" name="id" value="0" />
+            <div class="form-group col-md-5">
+                <label for="name">Meal name:</label>
+                <input class="form-control" name="name" />
+            </div>
+            <div class="form-group col-md-5">
+                <label for="age">Meal price:</label>
+                <input class="form-control" name="age" type="number" />
+            </div>
+            <div id="ingredients"></div>
+            <div class="panel-body">
+                <button type="submit" id="submit" class="btn btn-primary">Сохранить</button>
+                <a id="reset" class="btn btn-primary">Сбросить</a>
+            </div>
+        </form>
+        <div id="meals"></div>
+    </div>
+    <script src="jq.js"></script>
+    <script>
+        var uri = 'api/meals';
+
+        $(document).ready(function () {
+            // Send an AJAX request
+            $.getJSON('api/meals/GetInMenuIngredients/' + localStorage.getItem("selectedMealId"))
+                .done(function (data) {
+                    // On success, 'data' contains a list of products.
+                    $.each(data, function (key, item) {
+                        // Add a list item for the product.
+                        $(createInMeal(item)).appendTo($('#meals'));
+                    });
+                });
+        });
+
+        $(document).ready(function () {
+            // Send an AJAX request
+            $.getJSON(uri)
+                .done(function (data) {
+                    // On success, 'data' contains a list of products.
+                    $.each(data, function (key, item) {
+                        // Add a list item for the product.
+                        $(createMeal(item)).appendTo($('#meals'));
+                    });
+                });
+        });
+
+
+        async function AddIngredient(id, meal) {
+            localStorage.setItem("selectedMealId", id);
+
+            const response = await fetch("/api/meals/" + id, {
+                method: "GET",
+                headers: { "Accept": "application/json" }
+            });
+        }
+
+        // создание строки для таблицы
+        function createInMeal(user) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", user.id);
+
+            const nameTd = document.createElement("td");
+            nameTd.append(user.Name);
+            tr.append(nameTd);
+
+            const ageTd = document.createElement("td");
+            ageTd.append(user.Price);
+            tr.append(ageTd);
+
+            const linksTd = document.createElement("td");
+
+            const editLink = document.createElement("a");
+            editLink.setAttribute("data-id", user.id);
+            editLink.setAttribute("style", "cursor:pointer;padding:15px;");
+            editLink.append("Remove");
+            editLink.addEventListener("click", e => {
+
+                e.preventDefault();
+                GetUser(user.id);
+            });
+            linksTd.append(editLink);
+            tr.appendChild(linksTd);
+
+            return tr;
+        }
+
+        // создание строки для таблицы
+        function createAddToMeal(user) {
+
+            const tr = document.createElement("tr");
+            tr.setAttribute("data-rowid", user.id);
+
+            const nameTd = document.createElement("td");
+            nameTd.append(user.Name);
+            tr.append(nameTd);
+
+            const ageTd = document.createElement("td");
+            ageTd.append(user.Price);
+            tr.append(ageTd);
+
+            const linksTd = document.createElement("td");
+
+            const editLink = document.createElement("a");
+            editLink.setAttribute("data-id", user.id);
+            editLink.setAttribute("style", "cursor:pointer;padding:15px;");
+            editLink.append("Add");
+            editLink.addEventListener("click", e => {
+
+                e.preventDefault();
+                AddIngredient(user.id, user);
+            });
+            linksTd.append(editLink);
+            tr.appendChild(linksTd);
+
+            return tr;
+        }
+
+        // сброс значений формы
+        document.getElementById("reset").click(function (e) {
+
+            e.preventDefault();
+            reset();
+        })
+
+        // сброс формы
+        function reset() {
+            const form = document.forms["userForm"];
+            form.reset();
+            form.elements["id"].value = 0;
+        }
+
+        $("#userForm").submit(function (e) {
+            e.preventDefault(); // avoid to execute the actual submit of the form.
+
+            var form = $(this);
+            $.ajax({
+                type: "POST",
+                url: "api/meals",
+                data: JSON.stringify({
+                    Name: form.elements["name"].value,
+                    Price: form.elements["age"].value,
+                }), // serializes the form's elements.
+                success: function (data) {
+                    alert(data); // show response from the php script.
+                }
+            });
+        });
+
+        // отправка формы
+        //document.forms["userForm"].addEventListener("submit", e => {
+        //    e.preventDefault();
+        //    const form = document.forms["userForm"];
+        //    const id = form.elements["id"].value;
+        //    const name = form.elements["name"].value;
+        //    const age = form.elements["age"].value;
+        //    if (id == 0)
+        //        CreateUser(name, age);
+        //});
+
+        function formatItem(item) {
+            return item.Name + ': $' + item.Price;
+        }
+
+    </script>
+</body>
+</html>
